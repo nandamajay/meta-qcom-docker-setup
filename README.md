@@ -1,6 +1,21 @@
+
 # meta-qcom-docker-setup
 
 A repeatable, interactive Docker-based workflow to build **Yocto/OpenEmbedded images** for **Qualcomm (meta-qcom)** platforms using **kas** + **BitBake**.
+
+
+# 1) Build the image
+docker build --no-cache -t meta-qcom-builder .
+
+# 2) Prepare host workspace (on large disk)
+mkdir -p /local/mnt/workspace/meta-qcom-workspace/.kas
+sudo chown -R $(id -u):$(id -g) /local/mnt/workspace/meta-qcom-workspace
+df -h /local/mnt/workspace/meta-qcom-workspace  # ensure >= 80–100 GB free
+
+# 3) Run the container with UI
+docker run -it --rm \
+  -v /local/mnt/workspace/meta-qcom-workspace:/workspace \
+  -u $(id -u):$(id  -u $(id -u):$(id -g) \
 
 ## Contents
 - `Dockerfile` — Builds the container with dependencies, seeds `meta-qcom`, sets `HOME=/workspace` and `KAS_WORK_DIR=/workspace/.kas`, installs `kas`, and wires the entrypoint.
